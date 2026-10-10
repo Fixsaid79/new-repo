@@ -1,141 +1,137 @@
-# Administrator huquqini tekshirish
-if (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
-    Start-Process powershell.exe "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs
-    exit
-}
+@echo off
+:: Administrator huquqini olish
+net session >nul 2>&1
+if %errorLevel% neq 0 (
+    echo Administrator huquqlari so'ralmoqda...
+    powershell -Command "Start-Process '%~0' -Verb RunAs"
+    exit /b
+)
 
-$hostsPath = "$env:windir\System32\drivers\etc\hosts"
+set "HOSTS=%windir%\System32\drivers\etc\hosts"
 
-# Eski bloklarni tozalash
-$hostsContent = Get-Content $hostsPath -ErrorAction SilentlyContinue$newContent = @()
-$skip =$false
-foreach ($line in$hostsContent) {
-    if ($line -like "*# === BLOCK_START ===*") { $skip =$true }
-    if (!$skip) { $newContent +=$line }
-    if ($line -like "*# === BLOCK_END ===*") { $skip =$false }
-}
+echo Hosts fayli yangilanmoqda...
 
-# Yangi bloklarni qo'shish
-$blockSection = @(
-    "",
-    "# === BLOCK_START ===",
-    
-    # --- GOOGLE & DUCKDUCKGO & QIDIRUV ---
-    "127.0.0.1 google.com",
-    "127.0.0.1 www.google.com",
-    "127.0.0.1 duckduckgo.com",
-    "127.0.0.1 www.duckduckgo.com",
-    "127.0.0.1 www.google.com",
-    "127.0.0.1 google.com",
-    "127.0.0.1 yandex.ru",
-    "127.0.0.1 www.yandex.ru",
-    "127.0.0.1 yandex.com",
-    "127.0.0.1 www.yandex.com",
+:: Bloklanadigan saytlar ro'yxati
+(
+echo.
+echo # === BLOCK_START ===
+echo 127.0.0.1 google.com
+echo 127.0.0.1 www.google.com
+echo 127.0.0.1 duckduckgo.com
+echo 127.0.0.1 www.duckduckgo.com
+echo 127.0.0.1 yandex.ru
+echo 127.0.0.1 www.yandex.ru
+echo 127.0.0.1 yandex.com
+echo 127.0.0.1 www.yandex.com
+echo 127.0.0.1 chatgpt.com
+echo 127.0.0.1 www.chatgpt.com
+echo 127.0.0.1 openai.com
+echo 127.0.0.1 www.openai.com
+echo 127.0.0.1 claude.ai
+echo 127.0.0.1 www.claude.ai
+echo 127.0.0.1 anthropic.com
+echo 127.0.0.1 gemini.google.com
+echo 127.0.0.1 perplexity.ai
+echo 127.0.0.1 www.perplexity.ai
+echo 127.0.0.1 copilot.microsoft.com
+echo 127.0.0.1 poe.com
+echo 127.0.0.1 you.com
+echo 127.0.0.1 phind.com
+echo 127.0.0.1 deepseek.com
+echo 127.0.0.1 grok.com
+echo 127.0.0.1 character.ai
+echo 127.0.0.1 pi.ai
+echo 127.0.0.1 meta.ai
+echo 127.0.0.1 huggingface.co
+echo 127.0.0.1 replicate.com
+echo 127.0.0.1 together.ai
+echo 127.0.0.1 fireworks.ai
+echo 127.0.0.1 fal.ai
+echo 127.0.0.1 runwayml.com
+echo 127.0.0.1 pika.art
+echo 127.0.0.1 luma.ai
+echo 127.0.0.1 klingai.com
+echo 127.0.0.1 heygen.com
+echo 127.0.0.1 synthesia.io
+echo 127.0.0.1 elevenlabs.io
+echo 127.0.0.1 suno.com
+echo 127.0.0.1 udio.com
+echo 127.0.0.1 ideogram.ai
+echo 127.0.0.1 midjourney.com
+echo 127.0.0.1 leonardo.ai
+echo 127.0.0.1 krea.ai
+echo 127.0.0.1 playground.com
+echo 127.0.0.1 stability.ai
+echo 127.0.0.1 clipdrop.co
+echo 127.0.0.1 remove.bg
+echo 127.0.0.1 canva.com
+echo 127.0.0.1 www.canva.com
+echo 127.0.0.1 adobe.com
+echo 127.0.0.1 descript.com
+echo 127.0.0.1 otter.ai
+echo 127.0.0.1 fireflies.ai
+echo 127.0.0.1 tldv.io
+echo 127.0.0.1 grammarly.com
+echo 127.0.0.1 quillbot.com
+echo 127.0.0.1 jasper.ai
+echo 127.0.0.1 copy.ai
+echo 127.0.0.1 writesonic.com
+echo 127.0.0.1 rytr.me
+echo 127.0.0.1 sudowrite.com
+echo 127.0.0.1 cursor.com
+echo 127.0.0.1 windsurf.com
+echo 127.0.0.1 replit.com
+echo 127.0.0.1 lovable.dev
+echo 127.0.0.1 bolt.new
+echo 127.0.0.1 v0.dev
+echo 127.0.0.1 tabnine.com
+echo 127.0.0.1 blackbox.ai
+echo 127.0.0.1 devin.ai
+echo 127.0.0.1 sourcegraph.com
+echo 127.0.0.1 ai21.com
+echo 127.0.0.1 cohere.com
+echo 127.0.0.1 mistral.ai
+echo 127.0.0.1 ollama.com
+echo 127.0.0.1 lmstudio.ai
+echo 127.0.0.1 langchain.com
+echo 127.0.0.1 langflow.org
+echo 127.0.0.1 n8n.io
+echo 127.0.0.1 zapier.com
+echo 127.0.0.1 make.com
+echo 127.0.0.1 notion.so
+echo 127.0.0.1 www.notion.so
+echo 127.0.0.1 gamma.app
+echo 127.0.0.1 tome.app
+echo 127.0.0.1 beautiful.ai
+echo 127.0.0.1 napkin.ai
+echo 127.0.0.1 scispace.com
+echo 127.0.0.1 consensus.app
+echo 127.0.0.1 elicit.com
+echo 127.0.0.1 semantic-scholar.org
+echo 127.0.0.1 wolframalpha.com
+echo 127.0.0.1 deepl.com
+echo 127.0.0.1 wordtune.com
+echo 127.0.0.1 speechify.com
+echo 127.0.0.1 murf.ai
+echo 127.0.0.1 invideo.io
+echo 127.0.0.1 veed.io
+echo 127.0.0.1 kapwing.com
+echo 127.0.0.1 opus.pro
+echo 127.0.0.1 vidnoz.com
+echo 127.0.0.1 futurepedia.io
+echo 127.0.0.1 toolify.ai
+echo 127.0.0.1 futuretools.io
+echo 127.0.0.1 topai.tools
+echo 127.0.0.1 aitools.fyi
+echo 127.0.0.1 easywithai.com
+echo 127.0.0.1 aichief.com
+echo 127.0.0.1 aipure.ai
+echo # === BLOCK_END ===
+) >> "%HOSTS%"
 
-    # --- AI SAYTLARI ---
-    "127.0.0.1 chatgpt.com",
-    "127.0.0.1 www.chatgpt.com",
-    "127.0.0.1 openai.com",
-    "127.0.0.1 www.openai.com",
-    "127.0.0.1 claude.ai",
-    "127.0.0.1 www.claude.ai",
-    "127.0.0.1 anthropic.com",
-    "127.0.0.1 gemini.google.com",
-    "127.0.0.1 perplexity.ai",
-    "127.0.0.1 www.perplexity.ai",
-    "127.0.0.1 copilot.microsoft.com",
-    "127.0.0.1 poe.com",
-    "127.0.0.1 you.com",
-    "127.0.0.1 phind.com",
-    "127.0.0.1 deepseek.com",
-    "127.0.0.1 grok.com",
-    "127.0.0.1 character.ai",
-    "127.0.0.1 pi.ai",
-    "127.0.0.1 meta.ai",
-    "127.0.0.1 huggingface.co",
-    "127.0.0.1 replicate.com",
-    "127.0.0.1 together.ai",
-    "127.0.0.1 fireworks.ai",
-    "127.0.0.1 fal.ai",
-    "127.0.0.1 runwayml.com",
-    "127.0.0.1 pika.art",
-    "127.0.0.1 luma.ai",
-    "127.0.0.1 klingai.com",
-    "127.0.0.1 heygen.com",
-    "127.0.0.1 synthesia.io",
-    "127.0.0.1 elevenlabs.io",
-    "127.0.0.1 suno.com",
-    "127.0.0.1 udio.com",
-    "127.0.0.1 ideogram.ai",
-    "127.0.0.1 midjourney.com",
-    "127.0.0.1 leonardo.ai",
-    "127.0.0.1 krea.ai",
-    "127.0.0.1 playground.com",
-    "127.0.0.1 stability.ai",
-    "127.0.0.1 clipdrop.co",
-    "127.0.0.1 remove.bg",
-    "127.0.0.1 canva.com",
-    "127.0.0.1 www.canva.com",
-    "127.0.0.1 adobe.com",
-    "127.0.0.1 descript.com",
-    "127.0.0.1 otter.ai",
-    "127.0.0.1 fireflies.ai",
-    "127.0.0.1 tldv.io",
-    "127.0.0.1 grammarly.com",
-    "127.0.0.1 quillbot.com",
-    "127.0.0.1 jasper.ai",
-    "127.0.0.1 copy.ai",
-    "127.0.0.1 writesonic.com",
-    "127.0.0.1 rytr.me",
-    "127.0.0.1 sudowrite.com",
-    "127.0.0.1 cursor.com",
-    "127.0.0.1 windsurf.com",
-    "127.0.0.1 replit.com",
-    "127.0.0.1 lovable.dev",
-    "127.0.0.1 bolt.new",
-    "127.0.0.1 v0.dev",
-    "127.0.0.1 tabnine.com",
-    "127.0.0.1 blackbox.ai",
-    "127.0.0.1 devin.ai",
-    "127.0.0.1 sourcegraph.com",
-    "127.0.0.1 ai21.com",
-    "127.0.0.1 cohere.com",
-    "127.0.0.1 mistral.ai",
-    "127.0.0.1 ollama.com",
-    "127.0.0.1 lmstudio.ai",
-    "127.0.0.1 langchain.com",
-    "127.0.0.1 langflow.org",
-    "127.0.0.1 n8n.io",
-    "127.0.0.1 zapier.com",
-    "127.0.0.1 www.google.com",
-    "127.0.0.1 zapier.com",
-    "127.0.0.1 make.com",
-    "127.0.0.1 notion.so",
-    "127.0.0.1 www.notion.so",
-    "127.0.0.1 gamma.app",
-    "127.0.0.1 tome.app",
-    "127.0.0.1 beautiful.ai",
-    "127.0.0.1 napkin.ai",
-    "127.0.0.1 scispace.com",
-    "127.0.0.1 consensus.app",
-    "127.0.0.1 elicit.com",
-    "127.0.0.1 semantic-scholar.org",
-    "127.0.0.1 wolframalpha.com",
-    "127.0.0.1 deepl.com",
-    "127.0.0.1 wordtune.com",
-    "127.0.0.1 speechify.com",
-    "127.0.0.1 murf.ai",
-    "127.0.0.1 invideo.io",
-    "127.0.0.1 veed.io",
-    "127.0.0.1 kapwing.com",
-    "127.0.0.1 opus.pro",
-    "127.0.0.1 vidnoz.com",
-    "127.0.0.1 futurepedia.io",
-    "127.0.0.1 toolify.ai",
-    "127.0.0.1 futuretools.io",
-    "127.0.0.1 topai.tools",
-    "127.0.0.1 aitools.fyi",
-    "127.0.0.1 easywithai.com",
-    "127.0.0.1 aichief.com",
-    "127.0.0.1 aipure.ai",
-    "127.0.0.1 thereisa
+echo DNS keshini clearing...
+ipconfig /flushdns >nul 2>&1
+
+echo.
+echo Barcha saytlar muvaffaqiyatli bloklandi!
+pause
