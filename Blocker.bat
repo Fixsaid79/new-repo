@@ -25,6 +25,8 @@ $blockSection = @(
     "127.0.0.1 www.google.com",
     "127.0.0.1 duckduckgo.com",
     "127.0.0.1 www.duckduckgo.com",
+    "127.0.0.1 www.google.com",
+    "127.0.0.1 google.com",
     "127.0.0.1 yandex.ru",
     "127.0.0.1 www.yandex.ru",
     "127.0.0.1 yandex.com",
